@@ -1,0 +1,38 @@
+- name: install tools
+  become: yes
+  apt:
+    name: 
+      # build tools
+      - build-essential
+      - cmake
+      - autoconf
+      - automake
+      - libtool
+      - pkg-config
+      # basic tools
+      - git
+      - curl
+      - wget
+      - unzip
+      - zip
+      - tar
+      - jq
+      # monitoring tools
+      - htop
+      - bandwhich
+      - bottom
+      - ctop
+      - iotop
+      - nload
+      # network tools
+      - net-tools
+      - iputils-ping
+      - dnsutils
+      # command line tools
+      - bat
+      - exa
+      - fd-find
+      - ripgrep
+      - fzf
+      - tldr
+    state: latest
