@@ -6,30 +6,27 @@ set -e
 # SCRIPT_DIR is the directory of the script file
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo "SCRIPT_DIR: $SCRIPT_DIR"
-
 
 function have {
   command -v "$1" &>/dev/null
 }
 
-# install ansible
-
-if ! have ansible; then
-  if have apt-get; then
-    sudo apt-get update
-    sudo apt-get install -y software-properties-common
-    sudo apt-add-repository -y ppa:ansible/ansible
-    sudo apt-get update
-    sudo apt-get install -y ansible
-  elif have yum; then
-    sudo yum install -y epel-release
-    sudo yum install -y ansible
-  else
-    echo "No package manager found. You must install ansible manually."
-    exit 1
-  fi
+# install python3 and pip3
+if ! have python3; then
+  sudo apt-get update
+  sudo apt-get install -y python3
+  sudo apt-get install -y python3-pip
+  pip3 install --upgrade pip
 fi
+
+# install ansible using pip
+if ! have ansible; then
+  pip3 install ansible
+fi
+# install ansible dependencies
+ansible-galaxy install -r $SCRIPT_DIR/requirements.yml
+
+
 
 # Run Ansible
 ansible-playbook -i $SCRIPT_DIR/hosts $SCRIPT_DIR/linux.yml --ask-become-pass
