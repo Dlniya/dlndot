@@ -33,4 +33,12 @@
     src: ~/dlndot/nvim
     dest: ~/.config/nvim
     state: link
+
+  
+- name: .gitconfig
+  file:
+    src: ~/.config/.gitconfig
+    dest: ~/.gitconfig
+    state: link
+
    
