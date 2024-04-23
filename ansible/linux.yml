@@ -4,3 +4,5 @@
   hosts: local
   roles:
     - packages
+    - fonts
+    - dlndot
