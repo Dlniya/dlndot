@@ -8,7 +8,7 @@ set -e
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # load scripts
-source $SCRIPT_DIR/scripts/variables.sh
+
 source $SCRIPT_DIR/scripts/tui.sh
 
 # print welcome message
@@ -70,9 +70,10 @@ sudo apt install -y software-properties-common apt-transport-https ca-certificat
 # installing some essential packages for further installation
 sudo apt install -y git curl wget unzip zip tar
 
-# installing ansible latest version\
-# we can add some repos to apt in order to get the latest version of ansible
-# but we will use pip to install the latest version of ansible
+# installing some build tools
+sudo apt install -y build-essential 
+
+# installing ansible latest version
 
 if ! have ansible; then
   sudo apt update
@@ -96,4 +97,8 @@ fi
 ansible-galaxy install -r $SCRIPT_DIR/ansible/requirements.yml
 
 # Run Ansible
-#ansible-playbook -i $SCRIPT_DIR/hosts $SCRIPT_DIR/linux.yml --ask-become-pass
+ansible-playbook -i $SCRIPT_DIR/ansible/hosts $SCRIPT_DIR/ansible/linux.yml --ask-become-pass
+
+# print the final message and restart the shell
+#tui::print_final_message
+restart_shell
