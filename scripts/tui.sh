@@ -43,13 +43,17 @@ Welcome to${CYAN}${SCRIPT_NAME}${NC} Version ${SCRIPT_VERSION} Author:${CYAN}${S
 ${LIGHT_GRAY}${SCRIPT_DESCRIPTION}${NC}
 
 ${YELLOW}===============================================================================${NC}
-\n
 "
 
 # function to print the welcome message
-function tui::print_welcome_message() {
+function tui::welcome() {
     clear
     echo -e "${WELCOME_MESSAGE}"
     sleep 2
     
+}
+
+function tui::sudo_password() {
+    echo -e "${YELLOW}This script requires sudo privileges${NC}"
+    echo -e "${YELLOW}Please enter your password to continue${NC}"
 }

@@ -1,104 +1,19 @@
-#!/bin/bash
+##!/bin/bash
 
-set -e
+# this script is inside our project root directory
+# we need to declare an environment variable to store the project root directory
+# in order to use it in our script, so this script, even if executed from another directory,
+# will always know its project root directory
 
+export DLNDOT_PROJECT_ROOT=$(dirname $(readlink -f $0))
 
+# import scripts
+source $DLNDOT_PROJECT_ROOT/scripts/tui.sh
+source $DLNDOT_PROJECT_ROOT/scripts/prepare.sh
 
-# SCRIPT_DIR is the directory of the script file
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+tui::welcome
+tui::sudo_password
 
-# load scripts
-
-source $SCRIPT_DIR/scripts/tui.sh
-
-# print welcome message
-tui::print_welcome_message
-
-
-
-# check if distro is Ubuntu 
-if [ ! -f /etc/lsb-release ]; then
-  echo "This script is only for Ubuntu"
-  exit 1
-fi
-
-# check if the ubuntu version is 22.04 or later 
-
-source /etc/lsb-release
-if [ "$DISTRIB_RELEASE" != "22.04" ]; then
-  echo "This script is only for Ubuntu 22.04 or later"
-  exit 1
-fi
+ansible-playbook -i $DLNDOT_PROJECT_ROOT/ansible/hosts $DLNDOT_PROJECT_ROOT/ansible/linux.yml --ask-become-pass --extra-vars "dlndot_project_root=$DLNDOT_PROJECT_ROOT"
 
 
-function have {
-  command -v "$1" &>/dev/null
-}
-
-# function for restarting the shell
-# this is needed to update the path after installing some packages
-
-function restart_shell {
-  # we have .bashrc and .bash_profile in some cases or .profile 
-  # we will check for all of them and source them
-  if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
-  fi
-  if [ -f ~/.bash_profile ]; then
-    source ~/.bash_profile
-  fi
-  if [ -f ~/.profile ]; then
-    source ~/.profile
-  fi
-
-  # if none of the above files exist, we will source the current shell
-  if [ ! -f ~/.bashrc ] && [ ! -f ~/.bash_profile ] && [ ! -f ~/.profile ]; then
-    source $SHELL
-  fi
-
-  # other restart options
-  exec $SHELL
-
-}
-
-# first we need update the system
-sudo apt update && sudo apt upgrade -y
-
-# then we need to install some ubuntu packages
-sudo apt install -y software-properties-common apt-transport-https ca-certificates curl gnupg lsb-release ubuntu-advantage-tools
-
-# installing some essential packages for further installation
-sudo apt install -y git curl wget unzip zip tar
-
-# installing some build tools
-sudo apt install -y build-essential 
-
-# installing ansible latest version
-
-if ! have ansible; then
-  sudo apt update
-  sudo apt install -y python3-pip
-  pip3 install ansible
-  restart_shell
-fi
-
-# check if ansible is installed , and also we need ansible-galaxy
-if ! have ansible; then
-  echo "Ansible is not installed"
-  exit 1
-fi
-
-if ! have ansible-galaxy; then
-  echo "Ansible-galaxy is not installed"
-  exit 1
-fi
-
-# install ansible dependencies
-ansible-galaxy install -r $SCRIPT_DIR/ansible/requirements.yml
-
-# Run Ansible
-ansible-playbook -i $SCRIPT_DIR/ansible/hosts $SCRIPT_DIR/ansible/linux.yml --ask-become-pass
-
-# print the final message and restart the shell
-#tui::print_final_message
-restart_shell
