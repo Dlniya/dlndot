@@ -1,0 +1,4 @@
+- name: update font cache
+  become: yes
+  become_user: root
+  ansible.builtin.command: fc-cache -f -v

@@ -1,14 +1,41 @@
 ---
+- name: install common tools
+  become: yes
+  become_user: root
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - curl
+    - wget
+    - unzip
+    - htop
+    - jq
+    - tree
+    - neofetch
 
-# import tasks
 
 - import_tasks: install_cargo.yml
-- import_tasks: install_bandwhich.yml
+- import_tasks: install_omz.yml
 
 
 
-- name: package | bottom | install
+
+- name: install cargo packages
   community.general.cargo:
-    name: bottom
+    name: "{{ item }}"
     state: latest
-    locked: true
+  loop:
+    - bandwhich
+    - bottom
+    - ripgrep
+    - fd-find
+    - zoxide
+    - eza
+    - starship
+   
+
+- name:  add capabilities to bandwhich
+  become: yes
+  shell: sudo setcap cap_sys_ptrace,cap_dac_read_search,cap_net_raw,cap_net_admin+ep $(command -v bandwhich)

@@ -1,9 +1,0 @@
----
-- name: package | bandwhich | install
-  community.general.cargo:
-    name: bandwhich
-    state: latest
-
-- name: package | bandwhich | add capabilities
-  become: yes
-  shell: sudo setcap cap_sys_ptrace,cap_dac_read_search,cap_net_raw,cap_net_admin+ep $(command -v bandwhich)

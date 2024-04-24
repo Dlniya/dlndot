@@ -4,5 +4,13 @@
   gather_facts: true
   become: yes
   become_user: "{{ lookup('env', 'USER') }}"
+  pre_tasks:
+    - name: update apt cache
+      become_user: root
+      changed_when: false
+      ansible.builtin.apt:
+        update_cache: yes
   roles:
     - packages
+    - fonts
+    - dotfiles

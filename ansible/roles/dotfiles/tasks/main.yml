@@ -1,0 +1,44 @@
+- name: Create ~/.config
+  become: yes
+  file:
+    path: ~/.config
+    state: directory
+
+
+- name: Find .config files
+  find:
+    paths: "{{ dlndot_project_root }}/dotfiles/config/"
+    recurse: no
+    file_type: any
+    hidden: yes
+  register: dotfiles_config
+
+
+- name: link .config files
+  become: yes
+  file:
+    src: "{{ item.path }}"
+    dest: "~/.config/{{ item.path | basename }}"
+    state: link
+    force: yes
+  loop: "{{ dotfiles_config.files }}"
+  loop_control:
+    label: "~/.config/{{item.path | basename}}"
+  when: item.path is not search(".*.swp")
+
+
+- name: Link .zshrc
+  become: yes
+  file:
+    src: "{{ dlndot_project_root }}/dotfiles/.zshrc"
+    dest: "~/.zshrc"
+    state: link
+    force: yes
+
+- name: Link .bashrc
+  become: yes
+  file:
+    src: "{{ dlndot_project_root }}/dotfiles/.bashrc"
+    dest: "~/.bashrc"
+    state: link
+    force: yes

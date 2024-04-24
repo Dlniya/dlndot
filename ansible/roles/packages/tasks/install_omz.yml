@@ -1,0 +1,20 @@
+- name: insure zsh is installed
+  become: yes
+  become_user: root
+  ansible.builtin.apt:
+    name: zsh
+    state: present
+
+- name: Download Oh My Zsh installer
+  get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/install_omz.sh
+    mode: 0755
+    force: yes
+  
+- name: Install Oh My Zsh
+  command: /tmp/install_omz.sh
+  args:
+    creates: ~/.oh-my-zsh
+  become: yes
+  

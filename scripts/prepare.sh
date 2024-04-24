@@ -20,7 +20,7 @@ sudo apt install -y \
 
 
 # install build-essential tools
-sudo apt install -y build-essential
+sudo apt install -y build-essential cmake 
 
 # install python3 and pip3
 sudo apt install -y python3 python3-pip
