@@ -126,3 +126,6 @@ exec zsh
 # Created by `pipx` on 2024-04-23 10:32:07
 #export PATH="$PATH:/home/dlnya/.local/bin"
 #. "$HOME/.cargo/env"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash

@@ -1,0 +1,13 @@
+- name: clone fzf repo
+  git:
+    repo: https://github.com/junegunn/fzf.git
+    dest: ~/.fzf
+    depth: 1
+    force: yes
+
+- name: install fzf
+  shell: ~/.fzf/install --all --xdg
+  args:
+    chdir: ~/.fzf
+  register: fzf_install
+  ignore_errors: yes

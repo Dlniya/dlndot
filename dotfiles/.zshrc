@@ -3,24 +3,46 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# nvim path
+export PATH="$PATH:/opt/nvim-linux64/bin"
+
+# default editor
+export EDITOR=nvim
+
 # cargo path
 [ -f ~/.cargo/env ] && source $HOME/.cargo/env
 
+
 source $(dirname $(gem which colorls))/tab_complete.sh
-
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
+eval "$(fzf --zsh)"
 
 
 
 
 
-plugins=(git)
+
+# install oh-my-zsh plugins
+
+
+plugins=(
+  git
+  zoxide
+)
+
+
 
 source $ZSH/oh-my-zsh.sh
 
+
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # alias
 unalias -a
 
+# ==============================================================================
 alias l='colorls --sd --report'
 alias ls='colorls --sd'
 alias la='colorls --sd --all'
@@ -42,6 +64,16 @@ alias llt='colorls --sd --long --tree'
 alias llta='colorls --sd --long --tree --all'
 alias lltf='colorls --sd --long --tree --files'
 alias lltd='colorls --sd --long --tree --dirs'
+
+# ==============================================================================
+alias cd='z'
+
+# ==============================================================================
+alias cat='bat'
+alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
+alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
+
+
 
 
 

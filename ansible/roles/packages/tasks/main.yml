@@ -16,12 +16,13 @@
     - ruby
     - ruby-dev
     - rubygems
-    - fzf
     - neofetch
 
 
 - import_tasks: install_cargo.yml
 - import_tasks: install_omz.yml
+- import_tasks: install_fzf.yml
+- import_tasks: install_neovim.yml
 
 
 
@@ -37,6 +38,10 @@
     - fd-find
     - zoxide
     - starship
+    - du-dust
+    - tokei
+    - bat
+
    
 
 - name:  add capabilities to bandwhich
