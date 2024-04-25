@@ -2,20 +2,18 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-# run zsh if it is installed
-if [ "$SSH_TTY" ]
-then
-    if [ -x "$(command -v zsh)" ]
-    then
-        exec zsh
-    fi
-fi
+# we will run zsh , but if we login to this machine via sftp , zsh will not work
+# zsh works with ssh and local login , but not with sftp
+# so we will run bash instead of zsh when we login via sftp
+
 
 # If not running interactively, don't do anything
-#case $- in
-#    *i*) ;;
-#      *) return;;
-#esac
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+exec zsh
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options

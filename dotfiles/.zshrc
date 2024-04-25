@@ -18,15 +18,8 @@ source $ZSH/oh-my-zsh.sh
 
 # alias
 
-# remove all previous aliases
-unalias -a
 
-alias ld="eza -lD --icons=always"                                                      # ld — lists only directories (no files) 
-alias lf="eza -lf --icons=always --color=always | grep -v /"                           # lf — lists only files (no directories)
-alias lh="eza -dl --icons=always .* --group-directories-first"                         # lh — lists only hidden files (no directories)
-alias ll="eza -al --icons=always --color=always  --group-directories-first"            # ll — lists everything with directories first
-alias ls="eza -alf --icons=always --color=always --sort=size | grep -v /"              # ls — lists only files sorted by size
-alias lt="eza -al --icons=always --sort=modified"                                      # lt — lists everything sorted by time updated
-
+alias ls='eza --icons --group-directories-first' # because of mucle memory from bash
+alias ll='ls -l'
 
 
