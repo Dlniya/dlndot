@@ -20,23 +20,12 @@ eval "$(zoxide init zsh)"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
 eval "$(fzf --zsh)"
 
-
-
-
-
-
 # install oh-my-zsh plugins
-
-
 plugins=(
   git
   zoxide
 )
-
-
-
 source $ZSH/oh-my-zsh.sh
-
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # alias
