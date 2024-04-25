@@ -13,6 +13,8 @@
     - htop
     - jq
     - tree
+    - ruby
+    - ruby-dev
     - neofetch
 
 
@@ -39,3 +41,10 @@
 - name:  add capabilities to bandwhich
   become: yes
   shell: sudo setcap cap_sys_ptrace,cap_dac_read_search,cap_net_raw,cap_net_admin+ep $(command -v bandwhich)
+
+
+- name: install gem packages
+  become: yes
+  command: sudo gem install {{ item }}
+  loop:
+    - colorls
