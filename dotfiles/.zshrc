@@ -9,6 +9,9 @@ export PATH="$PATH:/opt/nvim-linux64/bin"
 # default editor
 export EDITOR=nvim
 
+# term256 color
+export TERM=xterm-256color
+
 # cargo path
 [ -f ~/.cargo/env ] && source $HOME/.cargo/env
 
@@ -23,7 +26,6 @@ eval "$(fzf --zsh)"
 # install oh-my-zsh plugins
 plugins=(
   git
-  zoxide
 )
 source $ZSH/oh-my-zsh.sh
 
